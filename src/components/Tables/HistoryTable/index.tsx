@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const tableHead = ['Symbol', 'Profit', 'Volume', 'Time', 'Done Time'];
+const tableHead = ['Symbol', 'Volume', 'Time', 'Profit', 'Status'];
 
 export default function BasicTable({ data }) {
   return (
@@ -24,10 +24,10 @@ export default function BasicTable({ data }) {
             data.map((row) => (
               <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="left">{row.symbol}</TableCell>
-                <TableCell align="left">{row.comment}</TableCell>
                 <TableCell align="left">{row.volume}</TableCell>
                 <TableCell align="left">{new Date(row.time).toLocaleString()}</TableCell>
-                <TableCell align="left">{new Date(row.doneTime).toLocaleString()}</TableCell>
+                <TableCell align="left">{'$ ' + row.profit}</TableCell>
+                <TableCell align="left">{row.profit < 0 ? 'LOSS' : 'GAIN'}</TableCell>
               </TableRow>
             ))}
         </TableBody>

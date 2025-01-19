@@ -19,10 +19,8 @@ export const connectToMetaApi = async () => {
 
 export const fetchOrdersForMonth = async (year, month) => {
   const connection = await connectToMetaApi();
-
-  // Definir o início e o fim do mês com base nos parâmetros fornecidos
-  const startOfMonth = new Date(year, month - 1, 1); // `month - 1` porque os meses no JavaScript são baseados em zero
-  const endOfMonth = new Date(year, month, 1); // O início do próximo mês
+  const startOfMonth = new Date(year, month - 1, 1);
+  const endOfMonth = new Date(year, month, 1);
 
   try {
     const orders = await connection.getHistoryOrdersByTimeRange(
@@ -34,4 +32,21 @@ export const fetchOrdersForMonth = async (year, month) => {
     throw new Error("Erro ao buscar ordens: " + error.message);
   }
 };
+
+export const fetchDealsForMonth = async (year, month) => {
+  const connection = await connectToMetaApi();
+  const startOfMonth = new Date(year, month - 1, 1);
+  const endOfMonth = new Date(year, month, 1);
+
+  try {
+    const deals = await connection.getDealsByTimeRange(
+      startOfMonth.toISOString(),
+      endOfMonth.toISOString()
+    );
+    return deals;
+  } catch (error) {
+    throw new Error("Erro ao buscar deals: " + error.message);
+  }
+};
+
 

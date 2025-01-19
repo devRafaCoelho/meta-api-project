@@ -1,8 +1,8 @@
 import { Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import BasicTable from '../../components/Tables/HistoryTable';
-import { fetchOrdersForMonth } from '../../services/metaApi';
 import ClickableChips from '../../components/Filters';
+import BasicTable from '../../components/Tables/HistoryTable';
+import { fetchDealsForMonth, fetchOrdersForMonth } from '../../services/metaApi';
 
 export default function Home() {
   const [data, setData] = useState(null);
@@ -12,8 +12,8 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const orders = await fetchOrdersForMonth(year, month);
-      setData(orders.historyOrders);
+      const orders = await fetchDealsForMonth(year, month);
+      setData(orders.deals);
     } catch (err) {
       console.error(err.message);
       setError(err.message);
@@ -24,6 +24,10 @@ export default function Home() {
     fetchData();
     console.log('year', year);
   }, [year, month]);
+
+  useEffect(() => {
+    console.log('data', data);
+  }, [data]);
 
   return (
     <Container maxWidth="xl" sx={{ marginBottom: 5 }}>

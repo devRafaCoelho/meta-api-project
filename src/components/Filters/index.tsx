@@ -3,10 +3,6 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
 export default function ClickableChips({ setYear }) {
-  const handleClick = () => {
-    console.info('You clicked the Chip.');
-  };
-
   const years = ['2024', '2025'];
 
   return (
