@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,9 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const tableHead = ['Symbol', 'Volume', 'Time', 'Profit', 'Status'];
+const tableHead = ['Symbol', 'Volume', 'Time', 'Profit'];
 
 export default function BasicTable({ data }) {
+  const theme = useTheme();
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -26,8 +29,14 @@ export default function BasicTable({ data }) {
                 <TableCell align="left">{row.symbol}</TableCell>
                 <TableCell align="left">{row.volume}</TableCell>
                 <TableCell align="left">{new Date(row.time).toLocaleString()}</TableCell>
-                <TableCell align="left">{'$ ' + row.profit}</TableCell>
-                <TableCell align="left">{row.profit < 0 ? 'LOSS' : 'GAIN'}</TableCell>
+                <TableCell
+                  align="left"
+                  sx={{
+                    color: row.profit < 0 ? theme.palette.error.main : theme.palette.common.white
+                  }}
+                >
+                  {'$ ' + row.profit}
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

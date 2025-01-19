@@ -17,36 +17,47 @@ export const connectToMetaApi = async () => {
   return connection;
 };
 
-export const fetchOrdersForMonth = async (year, month) => {
+export const fetchOrdersForMonth = async (year: number, month: number) => {
   const connection = await connectToMetaApi();
   const startOfMonth = new Date(year, month - 1, 1);
   const endOfMonth = new Date(year, month, 1);
 
   try {
     const orders = await connection.getHistoryOrdersByTimeRange(
-      startOfMonth.toISOString(),
-      endOfMonth.toISOString()
+      startOfMonth,
+      endOfMonth
     );
     return orders;
   } catch (error) {
-    throw new Error("Erro ao buscar ordens: " + error.message);
+    if (error instanceof Error) {
+      throw new Error("Erro ao buscar ordens: " + error.message);
+    } else {
+      throw new Error("Erro desconhecido ao buscar ordens.");
+    }
   }
 };
 
-export const fetchDealsForMonth = async (year, month) => {
+export const fetchDealsForMonth = async (year: number, month: number) => {
   const connection = await connectToMetaApi();
   const startOfMonth = new Date(year, month - 1, 1);
   const endOfMonth = new Date(year, month, 1);
 
   try {
     const deals = await connection.getDealsByTimeRange(
-      startOfMonth.toISOString(),
-      endOfMonth.toISOString()
+      startOfMonth,
+      endOfMonth
     );
     return deals;
   } catch (error) {
-    throw new Error("Erro ao buscar deals: " + error.message);
+    if (error instanceof Error) {
+      throw new Error("Erro ao buscar deals: " + error.message);
+    } else {
+      throw new Error("Erro desconhecido ao buscar deals.");
+    }
   }
 };
+
+
+
 
 

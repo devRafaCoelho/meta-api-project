@@ -3,6 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { getTheme } from './theme/theme';
 import Home from './pages/Home';
+import History from './pages/History';
+import Live from './pages/Live';
 
 export default function MainRoutes() {
   const theme = getTheme();
@@ -13,11 +15,8 @@ export default function MainRoutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
-        {/* <Route path="/ranking" element={<Ranking />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/myAccount" element={<MyAccount />} />  */}
+        <Route path="/history" element={<History />} />
+        <Route path="/live" element={<Live />} />
       </Routes>
     </ThemeProvider>
   );
