@@ -1,21 +1,23 @@
-import { Container, Typography } from '@mui/material';
-import Header from '../../components/Header';
+import { Box, Container, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { fetchDealsForMonth } from '../../services/metaApi';
-import BasicTable from '../../components/Tables/HistoryTable';
 import ClickableChips from '../../components/Filters';
+import Header from '../../components/Header';
+import BasicTable from '../../components/Tables/HistoryTable';
+import { fetchDealsFromDate } from '../../services/metaApi';
 
 export default function History() {
   const [data, setData] = useState(null);
   const [year, setYear] = useState(2025);
   const [month, setMonth] = useState(1);
+  const [day, setDay] = useState(19);
   const [symbols, setSymbols] = useState([]);
   const [selectedSymbol, setSelectedSymbol] = useState(null); // Estado para o chip selecionado
 
   const fetchData = async () => {
     try {
-      const orders = await fetchDealsForMonth(year, month);
-      setData(orders.deals);
+      const startDate = new Date(year, month - 1, day);
+      const orders = await fetchDealsFromDate(startDate);
+      setData(orders.deals.filter((element) => element.entryType === 'DEAL_ENTRY_OUT'));
     } catch (error) {
       console.error(error.message);
     }
@@ -27,6 +29,7 @@ export default function History() {
 
   useEffect(() => {
     setSymbols([...new Set(data?.map((element) => element.symbol))]);
+    console.log('filteredData', filteredData);
   }, [data]);
 
   const filteredData = selectedSymbol
@@ -42,7 +45,13 @@ export default function History() {
           History Deals
         </Typography>
         <ClickableChips symbols={symbols} setSelectedSymbol={setSelectedSymbol} />
-        <BasicTable data={filteredData} />
+        {filteredData && filteredData.length > 0 ? (
+          <BasicTable data={filteredData} />
+        ) : (
+          <Box>
+            <Typography variant="h5">No results to show</Typography>
+          </Box>
+        )}
       </Container>
     </>
   );

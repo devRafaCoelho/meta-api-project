@@ -57,6 +57,23 @@ export const fetchDealsForMonth = async (year: number, month: number) => {
   }
 };
 
+export const fetchDealsFromDate = async (startDate: Date) => {
+  const connection = await connectToMetaApi();
+  const endDate = new Date();
+
+  try {
+    const deals = await connection.getDealsByTimeRange(startDate, endDate);
+    return deals;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Erro ao buscar deals: " + error.message);
+    } else {
+      throw new Error("Erro desconhecido ao buscar deals.");
+    }
+  }
+};
+
+
 
 
 
